@@ -1,5 +1,4 @@
 import { useState } from 'react'
-import { IoChatboxOutline, IoChatbox } from "react-icons/io5";
 import { Dialog, DialogBackdrop, DialogPanel, DialogTitle } from '@headlessui/react'
 import { RiLoader5Fill } from "react-icons/ri";
 
