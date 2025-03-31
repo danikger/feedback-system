@@ -1,6 +1,8 @@
 import { useState } from 'react'
 import { IoChatboxOutline, IoChatbox } from "react-icons/io5";
 import { Dialog, DialogBackdrop, DialogPanel, DialogTitle } from '@headlessui/react'
+import { RiLoader5Fill } from "react-icons/ri";
+
 import { HiAnnotation } from "react-icons/hi";
 import './App.css'
 
@@ -10,34 +12,40 @@ function App() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  async function handleSubmitFeedback({ message, email }) {
-    const apiUrl = import.meta.env.API_URL;
 
-    if (feedback.trim() !== "") {
-      const response = await fetch(apiUrl, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          message,
-          email,
-        }),
-      });
+  async function handleSubmitFeedback({ message, source }) {
+    const apiUrl = import.meta.env.VITE_API_URL;
+    setError(false);
 
-      const data = await response.json();
+    if (feedback.trim() !== "" && !loading) {
+      setLoading(true);
 
-      if (!response.ok) {
-        throw new Error(data.error || "Failed to submit feedback.");
+      try {
+        const response = await fetch(apiUrl, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ message, source }),
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+          throw new Error(data.error || "Failed to submit feedback.");
+        }
+
+        setOpenFeedback(false);
+        setFeedback("");
+      } catch (err) {
+        setError(true);
+        console.error("Feedback submission failed:", err.message);
+      } finally {
+        setLoading(false);
       }
-      
-      console.log(data);
-
-      setOpenFeedback(false);
-      setFeedback("");
     }
-
   }
+
 
   return (
     <>
@@ -50,8 +58,6 @@ function App() {
             <HiAnnotation />
             Feedback
           </button>
-
-
 
           <Dialog open={openFeedback} onClose={setOpenFeedback} className="relative z-10">
             <DialogBackdrop
@@ -77,7 +83,7 @@ function App() {
                       </div>
                     </div>
                   </div>
-                  <div className="mt-5">
+                  <div className="mt-5 flex flex-col">
                     <label htmlFor="feedback" className="sr-only">Your feedback or issue</label>
                     <textarea
                       id="feedback"
@@ -87,17 +93,23 @@ function App() {
                       onChange={(e) => setFeedback(e.target.value)}
                       value={feedback}
                       className="bg-zinc-900 h-32 rounded-md w-full text-zinc-200 p-2 resize-y max-h-96 min-h-10" />
+
+                    {error && (
+                      <span className="text-red-500 text-center mt-3 text-sm">
+                        Something went wrong. Please try again.
+                      </span>
+                    )}
                   </div>
                   <div className="mt-5 sm:mt-6 sm:grid sm:grid-flow-row-dense sm:grid-cols-2 sm:gap-3">
                     <button
                       type="button"
-                      onClick={(e) => handleSubmitFeedback({
+                      onClick={() => handleSubmitFeedback({
                         message: feedback,
-                        email: "me@example.com",
+                        source: "MyApp",
                       })}
-                      className="inline-flex cursor-pointer w-full justify-center rounded-md bg-zinc-950 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-zinc-900 focus-visible:outline focus-visible:outline-offset-2 focus-visible:outline-zinc-600 sm:col-start-2"
+                      className="inline-flex cursor-pointer w-full justify-center items-center rounded-md bg-zinc-950 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-zinc-900 focus-visible:outline focus-visible:outline-offset-2 focus-visible:outline-zinc-600 sm:col-start-2"
                     >
-                      Submit
+                      {loading ? <RiLoader5Fill className="size-5 text-zinc-200 animate-spin" /> : "Submit"}
                     </button>
                     <button
                       type="button"
