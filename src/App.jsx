@@ -95,7 +95,7 @@ function App() {
                         message: feedback,
                         email: "me@example.com",
                       })}
-                      className="inline-flex cursor-pointer w-full justify-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-offset-2 focus-visible:outline-indigo-600 sm:col-start-2"
+                      className="inline-flex cursor-pointer w-full justify-center rounded-md bg-zinc-950 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-zinc-900 focus-visible:outline focus-visible:outline-offset-2 focus-visible:outline-zinc-600 sm:col-start-2"
                     >
                       Submit
                     </button>
@@ -103,7 +103,7 @@ function App() {
                       type="button"
                       data-autofocus
                       onClick={() => setOpenFeedback(false)}
-                      className="mt-3 inline-flex cursor-pointer w-full justify-center rounded-md bg-zinc-200 px-3 py-2 text-sm font-semibold text-zinc-800 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:col-start-1 sm:mt-0"
+                      className="mt-3 inline-flex cursor-pointer w-full justify-center rounded-md bg-zinc-200 px-3 py-2 text-sm font-semibold text-zinc-800 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-zinc-100 sm:col-start-1 sm:mt-0"
                     >
                       Cancel
                     </button>
