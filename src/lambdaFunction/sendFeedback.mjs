@@ -35,7 +35,7 @@ export const handler = async (event) => {
       Message: {
         Body: {
           Text: {
-            Data: `New feedback:\n\nMessage: ${message}\Source: ${source || "Not provided"}\nTime: ${new Date(timestamp).toISOString()}`
+            Data: `New feedback:\n\nMessage: ${message}\nSource: ${source || "Not provided"}\nTime: ${new Date(timestamp).toISOString()}`
           }
         },
         Subject: { Data: "New App Feedback" }
