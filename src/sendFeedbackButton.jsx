@@ -3,7 +3,7 @@ import { Dialog, DialogBackdrop, DialogPanel, DialogTitle } from '@headlessui/re
 import { RiLoader5Fill } from "react-icons/ri";
 import { HiAnnotation } from "react-icons/hi";
 
-export default function SendFeedbackButton() {
+export default function SendFeedbackButton({ className = "" }) {
   const [openFeedback, setOpenFeedback] = useState(false);
   const [feedback, setFeedback] = useState("");
   const [loading, setLoading] = useState(false);
@@ -43,12 +43,13 @@ export default function SendFeedbackButton() {
     }
   }
 
+  // text-sm text-gray-300 font-semibold - Usual style for button
 
   return (
     <>
       <button
         onClick={() => setOpenFeedback(true)}
-        className="cursor-pointer text-sm text-gray-300 font-semibold flex items-center gap-2"
+        className={`cursor-pointer flex items-center gap-2 ${className}`}
       >
         <HiAnnotation className="size-4" />
         Send Feedback
